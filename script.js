@@ -37,15 +37,27 @@ function loadCSV() {
     header: true,
     complete: function(results) {
       signups = { tanks: [], healers: [], dps: [] };
+      
       results.data.forEach(row => {
-        const name = row.name?.trim();
-        const role = row.role?.trim().toLowerCase();
+        // Handle headers that might be capitalized or have spaces
+        let name = row.name || row.Name || row.NAME || '';
+        let role = row.role || row.Role || row.ROLE || '';
+        
+        name = name.trim();
+        role = role.trim().toLowerCase();
+        
         if (name && role) {
           if (role === 'tank') signups.tanks.push(name);
           else if (role === 'healer') signups.healers.push(name);
           else if (role === 'dps') signups.dps.push(name);
         }
       });
+      
+      if (signups.tanks.length === 0 && signups.healers.length === 0 && signups.dps.length === 0) {
+        alert('No players loaded. Check that your CSV has "name" and "role" columns.');
+        return;
+      }
+      
       displaySignups();
       document.getElementById('rotate-section').style.display = 'block';
     },
