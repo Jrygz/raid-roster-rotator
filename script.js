@@ -38,23 +38,35 @@ function loadCSV() {
     const csv = e.target.result;
     signups = { tanks: [], healers: [], dps: [] };
     
-    // Split by newlines
+    // Split by newlines and filter empty lines
     const lines = csv.split('\n').filter(line => line.trim().length > 0);
     
-    // Remove quotes from lines if present
-    const cleanLines = lines.map(line => {
-      if (line.startsWith('"') && line.endsWith('"')) {
-        return line.slice(1, -1);
-      }
-      return line;
-    });
+    console.log('Total lines:', lines.length);
+    console.log('First few lines:', lines.slice(0, 3));
     
-    // Skip header row and process data
-    for (let i = 1; i < cleanLines.length; i++) {
-      const parts = cleanLines[i].split(',').map(p => p.trim());
+    // Process all lines (PapaParse processes header automatically, but we handle it manually)
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i].trim();
+      
+      // Remove surrounding quotes if present
+      if ((line.startsWith('"') && line.endsWith('"')) || (line.startsWith("'") && line.endsWith("'"))) {
+        line = line.slice(1, -1);
+      }
+      
+      // Skip header row
+      if (line.toLowerCase().includes('name') && line.toLowerCase().includes('role')) {
+        console.log('Found header row:', line);
+        continue;
+      }
+      
+      // Split by comma
+      const parts = line.split(',').map(p => p.trim().replace(/^["']|["']$/g, ''));
+      
       if (parts.length >= 2) {
         const name = parts[0];
         const role = parts[1].toLowerCase();
+        
+        console.log('Processing:', name, role);
         
         if (name && role) {
           if (role === 'tank') signups.tanks.push(name);
@@ -64,8 +76,10 @@ function loadCSV() {
       }
     }
     
+    console.log('Loaded signups:', signups);
+    
     if (signups.tanks.length === 0 && signups.healers.length === 0 && signups.dps.length === 0) {
-      alert('No players loaded. Check that your CSV has "name" and "role" columns.');
+      alert('No players loaded. Check your CSV format. Open the browser console (F12) for details.');
       return;
     }
     
