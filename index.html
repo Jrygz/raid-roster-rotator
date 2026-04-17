@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>World of Warcraft Raid Team Rotator</h1>
+  <h1>World of Warcraft Raid Team Rotator by James</h1>
   <div id="upload-section">
     <h2>Upload Sign-ups CSV</h2>
     <input type="file" id="csvFile" accept=".csv">
@@ -23,18 +23,18 @@
     <ul id="dps-ul"></ul>
   </div>
   <div id="rotate-section" style="display: none;">
-    <button id="rotateBtn" type="button" onclick="console.log('Rotate button inline clicked'); rotateTeam();">Rotate Team</button>
+    <button id="rotateBtn" type="button">Rotate Team</button>
     <div id="status" class="status"></div>
   </div>
   <div id="results" style="display: none;">
-    <h2>Selected Team (25)</h2>
+    <h2 id="selected-title">Selected Team (25)</h2>
     <h3>Tanks (3)</h3>
     <ul id="selected-tanks-ul"></ul>
     <h3>Healers (5)</h3>
     <ul id="selected-healers-ul"></ul>
     <h3>DPS (17)</h3>
     <ul id="selected-dps-ul"></ul>
-    <h2>Benched</h2>
+    <h2 id="bench-title">Benched</h2>
     <h3>Tanks</h3>
     <ul id="benched-tanks-ul"></ul>
     <h3>Healers</h3>
