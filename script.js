@@ -122,8 +122,13 @@ function rotateTeam() {
   const selected = { tanks: [], healers: [], dps: [] };
   const benched = { tanks: [], healers: [], dps: [] };
 
+  console.log('Starting rotation with signups:', signups);
+  console.log('Required:', required);
+
   for (const role in required) {
     const pool = signups[role];
+    console.log(`${role} pool:`, pool);
+    
     if (pool.length < required[role]) {
       alert(`Not enough ${role} sign-ups. Need at least ${required[role]}.`);
       return;
@@ -137,8 +142,12 @@ function rotateTeam() {
       return Math.random() - 0.5;
     });
 
+    console.log(`${role} sorted:`, sorted);
     selected[role] = sorted.slice(0, required[role]);
     benched[role] = sorted.slice(required[role]);
+    
+    console.log(`${role} selected:`, selected[role]);
+    console.log(`${role} benched:`, benched[role]);
   }
 
   // Update history
