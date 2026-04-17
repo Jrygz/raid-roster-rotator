@@ -163,11 +163,15 @@ function rotateTeam() {
 }
 
 function displayResults(selected, benched) {
+  console.log('Displaying results - selected:', selected);
+  console.log('Displaying results - benched:', benched);
+  
   const roles = ['tanks', 'healers', 'dps'];
 
   roles.forEach(role => {
     const selUl = document.getElementById(`selected-${role}-ul`);
     selUl.innerHTML = '';
+    console.log(`Adding ${selected[role].length} ${role} to selected list:`, selected[role]);
     selected[role].forEach(name => {
       const li = document.createElement('li');
       li.textContent = name;
@@ -176,6 +180,7 @@ function displayResults(selected, benched) {
 
     const benchUl = document.getElementById(`benched-${role}-ul`);
     benchUl.innerHTML = '';
+    console.log(`Adding ${benched[role].length} ${role} to benched list:`, benched[role]);
     benched[role].forEach(name => {
       const li = document.createElement('li');
       li.textContent = name;
