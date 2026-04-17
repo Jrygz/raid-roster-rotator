@@ -143,12 +143,19 @@ function rotateTeam() {
     });
 
     console.log(`${role} sorted:`, sorted);
-    selected[role] = sorted.slice(0, required[role]);
-    benched[role] = sorted.slice(required[role]);
     
-    console.log(`${role} selected:`, selected[role]);
-    console.log(`${role} benched:`, benched[role]);
+    const numToSelect = required[role];
+    console.log(`Selecting ${numToSelect} ${role} from sorted list`);
+    
+    selected[role] = sorted.slice(0, numToSelect);
+    benched[role] = sorted.slice(numToSelect);
+    
+    console.log(`${role} SELECTED (${selected[role].length}):`, selected[role]);
+    console.log(`${role} BENCHED (${benched[role].length}):`, benched[role]);
   }
+
+  console.log('FINAL SELECTION:', selected);
+  console.log('FINAL BENCH:', benched);
 
   // Update history
   for (const role in selected) {
