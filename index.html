@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raid Rotator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>World of Warcraft Raid Team Rotator</h1>
+  <div id="upload-section">
+    <h2>Upload Sign-ups CSV</h2>
+    <input type="file" id="csvFile" accept=".csv">
+    <button id="loadBtn">Load Sign-ups</button>
+  </div>
+  <div id="signups-list" style="display: none;">
+    <h2>Current Sign-ups</h2>
+    <ul id="signups-ul"></ul>
+  </div>
+  <div id="rotate-section" style="display: none;">
+    <button id="rotateBtn">Rotate Team</button>
+  </div>
+  <div id="results" style="display: none;">
+    <h2>Selected Team (25)</h2>
+    <ul id="selected-ul"></ul>
+    <h2>Benched</h2>
+    <ul id="benched-ul"></ul>
+    <button id="saveBtn">Save Results</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

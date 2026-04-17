@@ -1,0 +1,28 @@
+{
+  "name": "raid-rotator",
+  "version": "1.0.0",
+  "description": "World of Warcraft Raid Team Rotator",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish=never"
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.raidrotator.app",
+    "productName": "Raid Rotator",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
