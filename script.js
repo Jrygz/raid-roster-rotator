@@ -5,9 +5,26 @@ let currentWeek = 0;
 document.addEventListener('DOMContentLoaded', () => {
   loadHistory();
 
-  document.getElementById('loadBtn').addEventListener('click', loadCSV);
-  document.getElementById('rotateBtn').addEventListener('click', rotateTeam);
-  document.getElementById('saveBtn').addEventListener('click', saveResults);
+  const loadBtn = document.getElementById('loadBtn');
+  const rotateBtn = document.getElementById('rotateBtn');
+  const saveBtn = document.getElementById('saveBtn');
+
+  console.log('DOM loaded. Buttons:', { loadBtn, rotateBtn, saveBtn });
+
+  loadBtn.addEventListener('click', () => {
+    console.log('Load button clicked');
+    loadCSV();
+  });
+
+  rotateBtn.addEventListener('click', () => {
+    console.log('Rotate button clicked');
+    rotateTeam();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    console.log('Save button clicked');
+    saveResults();
+  });
 });
 
 function loadHistory() {
