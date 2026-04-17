@@ -215,6 +215,92 @@ function displayResults(selected, benched) {
   document.getElementById('results').style.display = 'block';
 }
 
+function rotateTeam() {
+  const required = { tanks: 3, healers: 5, dps: 17 };
+  const selected = { tanks: [], healers: [], dps: [] };
+  const benched = { tanks: [], healers: [], dps: [] };
+
+  console.log('Rotate function started');
+  document.getElementById('status').textContent = 'Rotate button clicked';
+
+  console.log('Starting rotation with signups:', signups);
+  console.log('Required:', required);
+
+  for (const role in required) {
+    const pool = signups[role];
+    console.log(`${role} pool:`, pool);
+    
+    if (pool.length < required[role]) {
+      alert(`Not enough ${role} sign-ups. Need at least ${required[role]}.`);
+      return;
+    }
+
+    // Sort by lastSelected ascending (oldest first)
+    const sorted = pool.slice().sort((a, b) => {
+      const aLast = history[a] || 0;
+      const bLast = history[b] || 0;
+      if (aLast !== bLast) return aLast - bLast;
+      return Math.random() - 0.5;
+    });
+
+    console.log(`${role} sorted:`, sorted);
+    
+    const numToSelect = required[role];
+    console.log(`Selecting ${numToSelect} ${role} from sorted list`);
+    
+    selected[role] = sorted.slice(0, numToSelect);
+    benched[role] = sorted.slice(numToSelect);
+    
+    console.log(`${role} SELECTED (${selected[role].length}):`, selected[role]);
+    console.log(`${role} BENCHED (${benched[role].length}):`, benched[role]);
+  }
+
+  console.log('FINAL SELECTION:', selected);
+  console.log('FINAL BENCH:', benched);
+
+  document.getElementById('status').textContent = 'Rotation complete';
+
+  // Update history
+  for (const role in selected) {
+    selected[role].forEach(name => {
+      history[name] = currentWeek;
+    });
+  }
+  currentWeek++;
+
+  displayResults(selected, benched);
+  saveHistory();
+}
+
+function displayResults(selected, benched) {
+  console.log('Displaying results - selected:', selected);
+  console.log('Displaying results - benched:', benched);
+  
+  const roles = ['tanks', 'healers', 'dps'];
+
+  roles.forEach(role => {
+    const selUl = document.getElementById(`selected-${role}-ul`);
+    selUl.innerHTML = '';
+    console.log(`Adding ${selected[role].length} ${role} to selected list:`, selected[role]);
+    selected[role].forEach(name => {
+      const li = document.createElement('li');
+      li.textContent = name;
+      selUl.appendChild(li);
+    });
+
+    const benchUl = document.getElementById(`benched-${role}-ul`);
+    benchUl.innerHTML = '';
+    console.log(`Adding ${benched[role].length} ${role} to benched list:`, benched[role]);
+    benched[role].forEach(name => {
+      const li = document.createElement('li');
+      li.textContent = name;
+      benchUl.appendChild(li);
+    });
+  });
+
+  document.getElementById('results').style.display = 'block';
+}
+
 function saveResults() {
   // For now, just alert. Could save to file or something.
   alert('Results saved locally.');
