@@ -33,36 +33,46 @@ function loadCSV() {
     return;
   }
 
-  Papa.parse(file, {
-    header: true,
-    complete: function(results) {
-      signups = { tanks: [], healers: [], dps: [] };
-      
-      results.data.forEach(row => {
-        // Handle headers that might be capitalized or have spaces
-        let name = row.name || row.Name || row.NAME || '';
-        let role = row.role || row.Role || row.ROLE || '';
-        
-        name = name.trim();
-        role = role.trim().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const csv = e.target.result;
+    signups = { tanks: [], healers: [], dps: [] };
+    
+    // Split by newlines
+    const lines = csv.split('\n').filter(line => line.trim().length > 0);
+    
+    // Remove quotes from lines if present
+    const cleanLines = lines.map(line => {
+      if (line.startsWith('"') && line.endsWith('"')) {
+        return line.slice(1, -1);
+      }
+      return line;
+    });
+    
+    // Skip header row and process data
+    for (let i = 1; i < cleanLines.length; i++) {
+      const parts = cleanLines[i].split(',').map(p => p.trim());
+      if (parts.length >= 2) {
+        const name = parts[0];
+        const role = parts[1].toLowerCase();
         
         if (name && role) {
           if (role === 'tank') signups.tanks.push(name);
           else if (role === 'healer') signups.healers.push(name);
           else if (role === 'dps') signups.dps.push(name);
         }
-      });
-      
-      if (signups.tanks.length === 0 && signups.healers.length === 0 && signups.dps.length === 0) {
-        alert('No players loaded. Check that your CSV has "name" and "role" columns.');
-        return;
       }
-      
-      displaySignups();
-      document.getElementById('rotate-section').style.display = 'block';
-    },
-    skipEmptyLines: true
-  });
+    }
+    
+    if (signups.tanks.length === 0 && signups.healers.length === 0 && signups.dps.length === 0) {
+      alert('No players loaded. Check that your CSV has "name" and "role" columns.');
+      return;
+    }
+    
+    displaySignups();
+    document.getElementById('rotate-section').style.display = 'block';
+  };
+  reader.readAsText(file);
 }
 
 function displaySignups() {
