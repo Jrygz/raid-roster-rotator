@@ -21,8 +21,19 @@ Run `npm run dist` to build executables.
 
 ## Usage
 
-1. Upload a CSV file with player names (one per line or comma-separated)
-2. Click "Load Sign-ups"
-3. Click "Rotate Team" to select 25 players
-4. View selected and benched players
+1. Upload a CSV file with player sign-ups. The CSV should have headers and two columns:
+   - `name`: Player name
+   - `role`: Player role (tank, healer, or dps)
+   
+   Example CSV:
+   ```
+   name,role
+   Player1,tank
+   Player2,healer
+   Player3,dps
+   ```
+
+2. Click "Load Sign-ups" to display the list grouped by role
+3. Click "Rotate Team" to select 3 tanks, 5 healers, and 17 DPS fairly
+4. View the selected team and benched players
 5. Results are saved automatically
